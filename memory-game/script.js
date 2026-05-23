@@ -12,7 +12,7 @@ let lockBoard = false;
 let moves = 0;
 let matches = 0;
 
-// 피셔-예이츠 셔플 알고리즘
+// Fisher-Yates shuffle algorithm
 function shuffle(items) {
   const shuffled = [...items];
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
@@ -22,7 +22,7 @@ function shuffle(items) {
   return shuffled;
 }
 
-// 카드 동적 생성
+// Dynamically generate cards
 function createCard(icon) {
   const card = document.createElement("button");
   card.className = "card";
@@ -41,7 +41,7 @@ function createCard(icon) {
   return card;
 }
 
-// 게임 시작 및 초기화
+// Start and initialize the game
 function startGame() {
   const deck = shuffle([...icons, ...icons]);
   
@@ -56,11 +56,11 @@ function startGame() {
   totalPairsText.textContent = icons.length;
   message.textContent = "";
   
-  // 게임판 비우고 새로 만든 카드들 채워넣기
+  // Clear the game board and insert newly created cards
   board.replaceChildren(...deck.map(createCard));
 }
 
-// 카드 뒤집기 핸들러
+// Card flip handler
 function flipCard(card) {
   if (lockBoard || card === firstCard || card.classList.contains("matched")) return;
   
@@ -78,7 +78,7 @@ function flipCard(card) {
   checkForMatch();
 }
 
-// 카드 일치 여부 확인
+// Check whether the cards match
 function checkForMatch() {
   if (firstCard.dataset.icon === secondCard.dataset.icon) {
     keepMatchedCards();
@@ -87,7 +87,7 @@ function checkForMatch() {
   hideCards();
 }
 
-// 카드가 일치할 때 처리
+// Handle matched cards
 function keepMatchedCards() {
   firstCard.classList.add("matched");
   secondCard.classList.add("matched");
@@ -103,7 +103,7 @@ function keepMatchedCards() {
   }
 }
 
-// 카드가 일치하지 않을 때 처리 (다시 뒤집기)
+// Handle unmatched cards (flip them back)
 function hideCards() {
   lockBoard = true;
   window.setTimeout(() => {
@@ -115,13 +115,13 @@ function hideCards() {
   }, 800);
 }
 
-// 턴 초기화
+// Reset turn state
 function resetTurn() {
   firstCard = null;
   secondCard = null;
   lockBoard = false;
 }
 
-// 이벤트 리스너 등록 및 게임 첫 실행
+// Register event listeners and start the game
 restartButton.addEventListener("click", startGame);
 startGame();
